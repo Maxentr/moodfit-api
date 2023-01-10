@@ -1,0 +1,42 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  days      Day[]
+  role      Role     @default(USER)
+
+  @@map("users")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Day {
+  id        Int      @id @default(autoincrement())
+  date      DateTime
+  feeling   Int
+  comment   String?  @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("days")
+}
