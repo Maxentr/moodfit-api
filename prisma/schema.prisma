@@ -30,7 +30,7 @@ enum Role {
 
 model Day {
   id        Int      @id @default(autoincrement())
-  date      DateTime
+  date      String
   feeling   Int
   comment   String?  @db.Text
   createdAt DateTime @default(now())
