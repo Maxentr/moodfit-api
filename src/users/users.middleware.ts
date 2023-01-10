@@ -30,10 +30,20 @@ const UserIntegrity = (dataName: string, dataLocation: DataLocation) => {
 
       if (decodedToken.role === Role.ADMIN) return next()
 
-      if (decodedToken.id === req?.[dataLocation]?.[dataName]) {
+      const idToCheck = req?.[dataLocation]?.[dataName]
+
+      if (idToCheck && +decodedToken.id === +idToCheck) {
         next()
+      } else if (idToCheck) {
+        res.status(403).send({
+          message:
+            "Forbidden: You cannot access this resource because you are not the owner",
+        })
       } else {
-        res.status(403).send({ message: "Forbidden" })
+        res.status(400).send({
+          message:
+            "Bad request: Missing the userId somewhere. Check the request.",
+        })
       }
     } catch (error) {
       res.status(400).send({ message: "Invalid token" })

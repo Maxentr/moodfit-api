@@ -11,6 +11,7 @@ const CreateUserSchema = z.object({
 })
 
 type CreateUser = z.infer<typeof CreateUserBody>
+type CreateUserRequest = z.infer<typeof CreateUserSchema>
 
-export type { CreateUser }
+export type { CreateUser, CreateUserRequest }
 export { CreateUserSchema }

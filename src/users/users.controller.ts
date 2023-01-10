@@ -1,8 +1,14 @@
 import { Request, Response } from "express"
+import { CustomRequest, RequestWithParamId } from "../../types/generic-request"
 import { UsersService } from "./users.service"
+import { CreateUserRequest } from "./validations/create-user"
+import { UpdateUserRequest } from "./validations/update-user"
 
 export class UsersController {
-  public static async create(req: Request, res: Response) {
+  public static async create(
+    req: CustomRequest<CreateUserRequest>,
+    res: Response,
+  ) {
     try {
       const isEmailTaken = await UsersService.isEmailTaken(req.body.email)
       if (!isEmailTaken) {
@@ -26,10 +32,12 @@ export class UsersController {
     }
   }
 
-  public static async findOne(req: Request, res: Response) {
+  public static async findOne(
+    req: CustomRequest<RequestWithParamId>,
+    res: Response,
+  ) {
     try {
-      const id = +req.params.id
-      const user = await UsersService.findOne(id)
+      const user = await UsersService.findOne(req.params.id)
 
       res.send(user)
     } catch (error) {
@@ -37,12 +45,15 @@ export class UsersController {
     }
   }
 
-  public static async update(req: Request, res: Response) {
+  public static async update(
+    req: CustomRequest<UpdateUserRequest>,
+    res: Response,
+  ) {
     try {
-      const isEmailTaken = await UsersService.isEmailTaken(req.body.email)
+      const id = req.params.id
+      const doesUserExist = await UsersService.doesUserExist(id)
 
-      if (!isEmailTaken) {
-        const id = +req.params.id
+      if (!doesUserExist) {
         const user = await UsersService.update(id, req.body)
         res.send(user)
       } else {
@@ -53,10 +64,12 @@ export class UsersController {
     }
   }
 
-  public static async remove(req: Request, res: Response) {
+  public static async remove(
+    req: CustomRequest<RequestWithParamId>,
+    res: Response,
+  ) {
     try {
-      const id = +req.params.id
-      await UsersService.remove(id)
+      await UsersService.remove(req.params.id)
 
       res.send({ message: "User deleted" })
     } catch (error) {

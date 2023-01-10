@@ -52,6 +52,12 @@ export class UsersService {
     })
   }
 
+  public static async doesUserExist(id: number) {
+    return await prisma.user
+      .findUnique({ where: { id } })
+      .then((r) => (r ? true : false))
+  }
+
   public static async isEmailTaken(email: string) {
     return await prisma.user
       .findUnique({ where: { email } })

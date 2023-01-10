@@ -12,6 +12,7 @@ const UpdateUserSchema = z.object({
 })
 
 type UpdateUser = z.infer<typeof UpdateUserBody>
+type UpdateUserRequest = z.infer<typeof UpdateUserSchema>
 
-export type { UpdateUser }
+export type { UpdateUser, UpdateUserRequest }
 export { UpdateUserSchema }
