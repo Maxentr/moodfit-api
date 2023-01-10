@@ -26,7 +26,10 @@ const defaultRoleRestriction = Object.values(Role)
  */
 const Auth = (...roleRestriction: RoleString[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
-    const currRoleRestriction = roleRestriction || defaultRoleRestriction
+    const currRoleRestriction = roleRestriction.length
+      ? roleRestriction
+      : defaultRoleRestriction
+
     const authHeader = req.headers.authorization
 
     if (!authHeader)
@@ -36,11 +39,8 @@ const Auth = (...roleRestriction: RoleString[]) => {
       const token = authHeader.split(" ")[1]
       const decodedToken = AuthService.verifyAccessToken(token)
 
-      if (currRoleRestriction.includes(decodedToken.role)) {
-        next()
-      } else {
-        res.status(403).send({ message: "Forbidden" })
-      }
+      if (currRoleRestriction.includes(decodedToken.role)) next()
+      else res.status(403).send({ message: "Forbidden" })
     } catch (error) {
       res.status(400).send({ message: "Invalid token" })
     }
