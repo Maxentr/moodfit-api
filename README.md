@@ -1,6 +1,6 @@
-# Bad Days Counter API
+# MoodFit API
 
-This is a simple API that track helps the user to track "bad days". For each day the user has to score it ten and can add a comment.
+This is a simple API that track helps the user to track days. For each day the user has to score it ten and can add a comment.
 
 The goal is to find if there are similarities in actions or events on bad days.
 
