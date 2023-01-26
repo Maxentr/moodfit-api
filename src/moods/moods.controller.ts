@@ -1,4 +1,5 @@
 import { Request, Response } from "express"
+import { nextTick } from "process"
 import { CustomRequest, RequestWithParamId } from "../../types/generic-request"
 import { FindAllMoodsByUserRequest } from "../users/validations/find-all-by-user"
 import { MoodsService } from "./moods.service"
@@ -22,7 +23,7 @@ export class MoodsController {
       } else {
         res
           .status(400)
-          .send({ error: "You already sent your mood report tomood" })
+          .send({ error: "You already sent your mood report today" })
       }
     } catch (error) {
       console.log(error)
