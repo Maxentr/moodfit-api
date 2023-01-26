@@ -2,58 +2,58 @@ import { Router } from "express"
 import { RouteIdSchema } from "../utils/generic-schema"
 import { validate } from "../utils/validation"
 import Auth from "../auth/auth.middleware"
-import { DaysController } from "./days.controller"
-import { CreateDaySchema } from "./validations/create-day"
-import { UpdateDaySchema } from "./validations/update-day"
+import { MoodsController } from "./moods.controller"
+import { CreateMoodSchema } from "./validations/create-mood"
+import { UpdateMoodSchema } from "./validations/update-mood"
 import UserIntegrity from "../users/users.middleware"
 
-const daysRouter = Router()
+const moodsRouter = Router()
 
 // Create
-daysRouter.post(
+moodsRouter.post(
   "/",
   Auth(),
   UserIntegrity("userId", "body"),
-  validate(CreateDaySchema),
-  DaysController.create,
+  validate(CreateMoodSchema),
+  MoodsController.create,
 )
 
 // Read all
-daysRouter.get("/", Auth("ADMIN"), DaysController.findAll)
+moodsRouter.get("/", Auth("ADMIN"), MoodsController.findAll)
 
 // Read all by user
-daysRouter.get(
+moodsRouter.get(
   "/user/:id",
   Auth(),
   validate(RouteIdSchema),
   UserIntegrity("id", "params"),
-  DaysController.findAllByUser,
+  MoodsController.findAllByUser,
 )
 
 // Read one
-daysRouter.get(
+moodsRouter.get(
   "/:id",
   Auth(),
   UserIntegrity("id", "params"),
   validate(RouteIdSchema),
-  DaysController.findOne,
+  MoodsController.findOne,
 )
 
 // Update
-daysRouter.patch(
+moodsRouter.patch(
   "/:id",
   Auth(),
   UserIntegrity("userId", "body"),
-  validate(UpdateDaySchema),
-  DaysController.update,
+  validate(UpdateMoodSchema),
+  MoodsController.update,
 )
 
 // Delete
-daysRouter.delete(
+moodsRouter.delete(
   "/:id",
   Auth("ADMIN"),
   validate(RouteIdSchema),
-  DaysController.remove,
+  MoodsController.remove,
 )
 
-export default daysRouter
+export default moodsRouter

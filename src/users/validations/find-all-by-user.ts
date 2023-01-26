@@ -2,16 +2,16 @@ import { z } from "zod"
 import { SafeNumber } from "../../utils/generic-schema"
 import { PaginationQuery } from "../../utils/pagination"
 
-const FindAllDaysByUserParams = z.object({
+const FindAllMoodsByUserParams = z.object({
   userId: SafeNumber,
 })
 
-const FindAllDaysByUserSchema = z.object({
-  params: FindAllDaysByUserParams,
+const FindAllMoodsByUserSchema = z.object({
+  params: FindAllMoodsByUserParams,
   query: PaginationQuery,
 })
 
-type FindAllDaysByUserRequest = z.infer<typeof FindAllDaysByUserSchema>
+type FindAllMoodsByUserRequest = z.infer<typeof FindAllMoodsByUserSchema>
 
-export type { FindAllDaysByUserRequest }
-export { FindAllDaysByUserSchema }
+export type { FindAllMoodsByUserRequest }
+export { FindAllMoodsByUserSchema }

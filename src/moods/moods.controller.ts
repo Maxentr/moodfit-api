@@ -1,28 +1,28 @@
 import { Request, Response } from "express"
 import { CustomRequest, RequestWithParamId } from "../../types/generic-request"
-import { FindAllDaysByUserRequest } from "../users/validations/find-all-by-user"
-import { DaysService } from "./days.service"
-import { CreateDayRequest } from "./validations/create-day"
-import { UpdateDayRequest } from "./validations/update-day"
+import { FindAllMoodsByUserRequest } from "../users/validations/find-all-by-user"
+import { MoodsService } from "./moods.service"
+import { CreateMoodRequest } from "./validations/create-mood"
+import { UpdateMoodRequest } from "./validations/update-mood"
 
-export class DaysController {
+export class MoodsController {
   public static async create(
-    req: CustomRequest<CreateDayRequest>,
+    req: CustomRequest<CreateMoodRequest>,
     res: Response,
   ) {
     try {
-      const isTodayAlreadySent = await DaysService.isTodayAlreadySent(
+      const isTomoodAlreadySent = await MoodsService.isTomoodAlreadySent(
         req.body.userId,
       )
 
-      if (!isTodayAlreadySent) {
-        const day = await DaysService.create(req.body)
+      if (!isTomoodAlreadySent) {
+        const mood = await MoodsService.create(req.body)
 
-        res.status(201).send(day)
+        res.status(201).send(mood)
       } else {
         res
           .status(400)
-          .send({ error: "You already sent your day report today" })
+          .send({ error: "You already sent your mood report tomood" })
       }
     } catch (error) {
       console.log(error)
@@ -31,26 +31,26 @@ export class DaysController {
 
   public static async findAll(req: Request, res: Response) {
     try {
-      const days = await DaysService.findAll()
+      const moods = await MoodsService.findAll()
 
-      res.send(days)
+      res.send(moods)
     } catch (error) {
       console.log(error)
     }
   }
 
   public static async findAllByUser(
-    req: CustomRequest<FindAllDaysByUserRequest>,
+    req: CustomRequest<FindAllMoodsByUserRequest>,
     res: Response,
   ) {
     try {
       const { page, nbPerPage } = req.query
-      const days = await DaysService.findAllByUser(req.params.userId, {
+      const moods = await MoodsService.findAllByUser(req.params.userId, {
         page: page,
         nbPerPage: nbPerPage,
       })
 
-      res.send(days)
+      res.send(moods)
     } catch (error) {
       console.log(error)
     }
@@ -61,22 +61,22 @@ export class DaysController {
     res: Response,
   ) {
     try {
-      const day = await DaysService.findOne(req.params.id)
+      const mood = await MoodsService.findOne(req.params.id)
 
-      res.send(day)
+      res.send(mood)
     } catch (error) {
       console.log(error)
     }
   }
 
   public static async update(
-    req: CustomRequest<UpdateDayRequest>,
+    req: CustomRequest<UpdateMoodRequest>,
     res: Response,
   ) {
     try {
-      const day = await DaysService.update(req.params.id, req.body)
+      const mood = await MoodsService.update(req.params.id, req.body)
 
-      res.send(day)
+      res.send(mood)
     } catch (error) {
       console.log(error)
     }
@@ -87,9 +87,9 @@ export class DaysController {
     res: Response,
   ) {
     try {
-      await DaysService.remove(req.params.id)
+      await MoodsService.remove(req.params.id)
 
-      res.send({ message: "Day deleted" })
+      res.send({ message: "Mood deleted" })
     } catch (error) {
       console.log(error)
     }

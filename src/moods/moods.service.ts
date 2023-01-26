@@ -1,11 +1,11 @@
-import { CreateDay } from "./validations/create-day"
-import { UpdateDay } from "./validations/update-day"
+import { CreateMood } from "./validations/create-mood"
+import { UpdateMood } from "./validations/update-mood"
 import prisma from "../prisma"
 import { Pagination } from "../utils/pagination"
 
-export class DaysService {
-  public static async create(createRequest: CreateDay) {
-    return await prisma.day.create({
+export class MoodsService {
+  public static async create(createRequest: CreateMood) {
+    return await prisma.mood.create({
       data: {
         ...createRequest,
         date: new Date().toLocaleDateString("en-CA"),
@@ -16,7 +16,7 @@ export class DaysService {
   }
 
   public static async findAll() {
-    const menus = await prisma.day.findMany()
+    const menus = await prisma.mood.findMany()
     return menus
   }
 
@@ -24,7 +24,7 @@ export class DaysService {
     userId: number,
     { page, nbPerPage }: Pagination,
   ) {
-    const menus = await prisma.day.findMany({
+    const menus = await prisma.mood.findMany({
       where: { userId: userId },
       take: nbPerPage,
       skip: nbPerPage * (page - 1),
@@ -33,11 +33,11 @@ export class DaysService {
   }
 
   public static async findOne(id: number) {
-    return await prisma.day.findUnique({ where: { id } })
+    return await prisma.mood.findUnique({ where: { id } })
   }
 
-  public static async isTodayAlreadySent(userId: number) {
-    return await prisma.day
+  public static async isTomoodAlreadySent(userId: number) {
+    return await prisma.mood
       .findFirst({
         where: {
           userId: userId,
@@ -47,8 +47,8 @@ export class DaysService {
       .then((r) => (r ? true : false))
   }
 
-  public static async update(id: number, updateRequest: UpdateDay) {
-    return await prisma.day.update({
+  public static async update(id: number, updateRequest: UpdateMood) {
+    return await prisma.mood.update({
       where: { id },
       data: {
         ...updateRequest,
@@ -58,6 +58,6 @@ export class DaysService {
   }
 
   public static async remove(id: number) {
-    return await prisma.day.delete({ where: { id } })
+    return await prisma.mood.delete({ where: { id } })
   }
 }

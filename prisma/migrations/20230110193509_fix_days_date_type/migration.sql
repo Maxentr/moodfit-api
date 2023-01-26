@@ -1,2 +1,2 @@
 -- AlterTable
-ALTER TABLE `days` MODIFY `date` VARCHAR(191) NOT NULL;
+ALTER TABLE `moods` MODIFY `date` VARCHAR(191) NOT NULL;

@@ -1,7 +1,7 @@
 import express from "express"
 import { Router } from "express"
 import authRouter from "./auth/auth.router"
-import daysRouter from "./days/days.router"
+import moodsRouter from "./moods/moods.router"
 import usersRouter from "./users/users.router"
 
 export const createRouter = (app: express.Express) => {
@@ -9,7 +9,7 @@ export const createRouter = (app: express.Express) => {
   const routerV1 = Router()
   routerV1.use("/users", usersRouter)
   routerV1.use("/auth", authRouter)
-  routerV1.use("/days", daysRouter)
+  routerV1.use("/moods", moodsRouter)
 
   // nest all routes under /api
   const api = Router()
