@@ -36,7 +36,7 @@ export class MoodsService {
     return await prisma.mood.findUnique({ where: { id } })
   }
 
-  public static async isTomoodAlreadySent(userId: number) {
+  public static async isTodayMoodAlreadySent(userId: number) {
     return await prisma.mood
       .findFirst({
         where: {

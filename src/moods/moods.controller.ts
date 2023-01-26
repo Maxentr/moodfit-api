@@ -11,11 +11,11 @@ export class MoodsController {
     res: Response,
   ) {
     try {
-      const isTomoodAlreadySent = await MoodsService.isTomoodAlreadySent(
+      const isTodayMoodAlreadySent = await MoodsService.isTodayMoodAlreadySent(
         req.body.userId,
       )
 
-      if (!isTomoodAlreadySent) {
+      if (!isTodayMoodAlreadySent) {
         const mood = await MoodsService.create(req.body)
 
         res.status(201).send(mood)
