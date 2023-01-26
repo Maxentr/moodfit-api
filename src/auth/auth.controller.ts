@@ -33,6 +33,7 @@ export class AuthController {
 
       res.status(200).json({
         accessToken: accessToken,
+        refreshToken: refreshToken,
       })
     } catch (error: unknown) {
       res.status(400).send({ message: (error as any).message })
@@ -51,7 +52,7 @@ export class AuthController {
   public static async refresh(req: Request, res: Response) {
     try {
       // Check if the refresh token is present
-      const refreshToken = req.cookies.refreshToken
+      const refreshToken = req.cookies.refreshToken || req.body.refreshToken
       if (!refreshToken) throw new Error("No token provided")
       // Verify the refresh token
       const decodedToken = AuthService.verifyRefreshToken(refreshToken)
