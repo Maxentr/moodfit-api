@@ -1,10 +1,12 @@
 import { z } from "zod"
 import { SafeNumber } from "./generic-schema"
 
-const PaginationQuery = z.object({
+const PaginationQueryObject = {
   page: SafeNumber.min(1).default(1),
-  nbPerPage: SafeNumber.min(1).max(100).default(10),
-})
+  nb_per_page: SafeNumber.min(1).max(100).default(10),
+}
+
+const PaginationQuery = z.object(PaginationQueryObject)
 
 const PaginationSchema = z.object({
   query: PaginationQuery,
@@ -12,4 +14,4 @@ const PaginationSchema = z.object({
 
 type Pagination = z.infer<typeof PaginationQuery>
 
-export { Pagination, PaginationSchema, PaginationQuery }
+export { Pagination, PaginationSchema, PaginationQuery, PaginationQueryObject }

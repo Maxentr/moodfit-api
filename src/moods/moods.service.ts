@@ -1,7 +1,7 @@
 import { CreateMood } from "./validations/create-mood"
 import { UpdateMood } from "./validations/update-mood"
 import prisma from "../prisma"
-import { Pagination } from "../utils/pagination"
+import { GetMoodByUser } from "./validations/get-mood-by-user"
 
 export class MoodsService {
   public static async create(createRequest: CreateMood) {
@@ -22,12 +22,13 @@ export class MoodsService {
 
   public static async findAllByUser(
     userId: number,
-    { page, nbPerPage }: Pagination,
+    { nb_per_page, page, order_by, sort_by }: GetMoodByUser,
   ) {
     const menus = await prisma.mood.findMany({
       where: { userId: userId },
-      take: nbPerPage,
-      skip: nbPerPage * (page - 1),
+      take: nb_per_page,
+      skip: nb_per_page * (page - 1),
+      orderBy: { [sort_by as string]: order_by },
     })
     return menus
   }

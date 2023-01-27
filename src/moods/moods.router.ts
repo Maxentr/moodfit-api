@@ -6,6 +6,7 @@ import { MoodsController } from "./moods.controller"
 import { CreateMoodSchema } from "./validations/create-mood"
 import { UpdateMoodSchema } from "./validations/update-mood"
 import UserIntegrity from "../users/users.middleware"
+import { GetMoodByUserSchema } from "./validations/get-mood-by-user"
 
 const moodsRouter = Router()
 
@@ -25,7 +26,7 @@ moodsRouter.get("/", Auth("ADMIN"), MoodsController.findAll)
 moodsRouter.get(
   "/user/:id",
   Auth(),
-  validate(RouteIdSchema),
+  validate(GetMoodByUserSchema),
   UserIntegrity("id", "params"),
   MoodsController.findAllByUser,
 )

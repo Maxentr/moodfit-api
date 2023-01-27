@@ -4,6 +4,7 @@ import { CustomRequest, RequestWithParamId } from "../../types/generic-request"
 import { FindAllMoodsByUserRequest } from "../users/validations/find-all-by-user"
 import { MoodsService } from "./moods.service"
 import { CreateMoodRequest } from "./validations/create-mood"
+import { GetMoodByUserRequest } from "./validations/get-mood-by-user"
 import { UpdateMoodRequest } from "./validations/update-mood"
 
 export class MoodsController {
@@ -41,15 +42,11 @@ export class MoodsController {
   }
 
   public static async findAllByUser(
-    req: CustomRequest<FindAllMoodsByUserRequest>,
+    req: CustomRequest<GetMoodByUserRequest>,
     res: Response,
   ) {
     try {
-      const { page, nbPerPage } = req.query
-      const moods = await MoodsService.findAllByUser(req.params.userId, {
-        page: page,
-        nbPerPage: nbPerPage,
-      })
+      const moods = await MoodsService.findAllByUser(req.params.id, req.query)
 
       res.send(moods)
     } catch (error) {
